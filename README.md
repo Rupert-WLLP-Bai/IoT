@@ -19,7 +19,7 @@
 </center>
 
 ## 题目要求
-![](https://s2.loli.net/2022/11/23/bG6KIHuwzZU92e5.png)
+![题目要求](https://s2.loli.net/2022/12/14/ZKAIMFsNBODynpb.png)
 
 ## 使用说明
 
@@ -38,83 +38,4 @@
 ## 初步实现
 
 ### 2022.11.22
-1. 创建一个新的项目
-```zsh
-pnpm init
-```
-    
-2. 添加mqtt依赖
-```zsh
-pnpm add mqtt
-```
-
-3. 创建index.js
-```zsh
-touch index.js
-```
-
-4. 添加start脚本 
-```zsh
-vim package.json
-```
-
-```json
-{
-  "name": "iot",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "mqtt": "^4.2.8"
-  }
-}
-```
-
-5. index.js的内容
-```js
-const mqtt = require('mqtt');
-
-const host = 'broker.emqx.io';
-const port = '1883';
-const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
-
-const connectUrl = `mqtt://${host}:${port}`;
-const client = mqtt.connect(connectUrl, {
-  clientId,
-  clean: true,
-  connectTimeout: 4000,
-  username: 'emqx',
-  password: 'public',
-  reconnectPeriod: 1000,
-});
-
-const topic = '/nodejs/mqtt';
-client.on('connect', () => {
-  console.log('Connected');
-  client.subscribe([topic], () => {
-    console.log(`Subscribe to topic '${topic}'`);
-  });
-  client.publish(topic, 'nodejs mqtt test', {qos: 0, retain: false}, (error) => {
-    if (error) {
-      console.error(error);
-    }
-  });
-});
-client.on('message', (topic, payload) => {
-  console.log('Received Message:', topic, payload.toString());
-});
-```
-
-6. 运行
-```zsh
-pnpm start
-```
-
-7. 在MQTTX中订阅`/nodejs/mqtt`主题，可以看到消息
-8. IOS端使用MQTT Tool订阅`/nodejs/mqtt`主题，可以看到消息
+[参考文档](Doc/2022-11.md)
