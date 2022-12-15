@@ -19,14 +19,26 @@ def main():
         'Sub_metering_2': 'str',
         'Sub_metering_3': 'str'
     })
-    # Combine 'Date' and 'Time' into 'Datetime'
-    print("inserting Datetime column...")
-    df.insert(0, 'Datetime', pd.to_datetime(df['Date'] + ' ' + df['Time']))
-    print("inserting Datetime column done.")
 
+    # Start time is 2006-12-16 17:24:00
+    # End time is 2010-11-26 21:02:00
+    # Drop the time column and generate it by pandas function
+    # Insert the Datetime column to the first column
     print("dropping Date and Time columns...")
     df.drop(columns=['Date', 'Time'], inplace=True)
     print("dropping Date and Time columns done.")
+    start_time = pd.to_datetime("2006-12-16 17:24:00")
+    end_time = pd.to_datetime("2010-11-26 21:02:00")
+    print("generating Datetime column...")
+    df.insert(0, 'Datetime', pd.date_range(start_time, end_time, freq='min'))
+
+    # check if the datetime is in order
+    print("checking if the datetime is in order...")
+    if df['Datetime'].is_monotonic_increasing:
+        print("The datetime is in order.")
+    else:
+        print("The datetime is not in order.")
+    print("checking if the datetime is in order done.")
 
     # save the data to a new file
     df.to_csv("../data/data_datetime_with_nan.csv", index=False)

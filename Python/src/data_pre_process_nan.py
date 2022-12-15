@@ -36,7 +36,8 @@ for column in df.columns:
 print("setting rest of the columns type to float done.")
 
 # Replace NaN with the mean value of the month
-# columns are Global_active_power, Global_reactive_power, Voltage, Global_intensity, Sub_metering_1, Sub_metering_2, Sub_metering_3
+# Columns are as follows:
+# Global_active_power, Global_reactive_power, Voltage, Global_intensity, Sub_metering_1, Sub_metering_2, Sub_metering_3
 # Output the day when NaN is found and the mean value of the month
 # Output every one month
 # Store the mean value of the month before replacing NaN
@@ -53,11 +54,12 @@ for column in df.columns:
             if pd.isna(row[column]):
                 if row['Datetime'].month != month:
                     month = row['Datetime'].month
-                    print("month: " + str(month))
+                    # print("month: " + str(month))
                     month_mean[column] = df.loc[(df['Datetime'].dt.month == month) & (df[column].notna()), column].mean()
-                    print("mean value of the month: " + str(month_mean[column]))
+                    # print("mean value of the month: " + str(month_mean[column]))
                 df.loc[index, column] = month_mean[column]
-            print("[Column = {}], NaN is found at time: {}".format(column, row['Datetime']))
+            # print("[Column = {}], NaN is found at time: {}".format(column, row['Datetime']))
+    print("column: {} done.".format(column))
 print("replacing NaN with the mean value of the month done.")
 
 # save the data to a new file
